@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone
+      run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
+    - name: deps
+      run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev
+    - name: configure
+      working-directory: ardour
+      run: ./waf configure
+  build_windows:
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone
+      run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
+    - name: deps
+      run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64
+    - name: compile
+      working-directory: ardour/tools/x-win
+      run: XARCH=x86_64 ./compile.sh
+      
