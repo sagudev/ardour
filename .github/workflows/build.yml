@@ -11,7 +11,7 @@ jobs:
       - name: clone
         run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: deps
-        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libglibmm-2.4-dev
       - name: configure
         working-directory: ardour
         run: ./waf configure
@@ -27,7 +27,7 @@ jobs:
           git clone --recursive https://github.com/boostorg/boost.git -b boost-1.76.0
           cd boost
           ./bootstrap.sh
-          echo "using gcc-mingw : 9.3.0: gcc-mingw-w64-x86-64 ;" > user-config.jam
+          echo "using gcc-mingw : ~: gcc-mingw-w64-x86-64 ;" > user-config.jam
           ./bootstrap.sh
           ./b2 toolset=gcc-mingw target-os=windows
       - name: compile
