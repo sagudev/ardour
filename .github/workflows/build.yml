@@ -8,21 +8,28 @@ jobs:
   build_linux:
     runs-on: ubuntu-latest
     steps:
-    - name: clone
-      run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
-    - name: deps
-      run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev
-    - name: configure
-      working-directory: ardour
-      run: ./waf configure
+      - name: clone
+        run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
+      - name: deps
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev libasound2
+      - name: configure
+        working-directory: ardour
+        run: ./waf configure
   build_windows:
     runs-on: ubuntu-latest
     steps:
-    - name: clone
-      run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
-    - name: deps
-      run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64
-    - name: compile
-      working-directory: ardour/tools/x-win
-      run: XARCH=x86_64 ./compile.sh
-      
+      - name: clone
+        run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
+      - name: deps
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64
+      - name: get boost
+        run: |
+          wget https://github.com/boostorg/boost/archive/refs/tags/boost-1.76.0.tar.gz
+          tar xvf boost-1.76.0.tar.gz
+          cd boost_1_76_0
+          echo "using gcc-mingw : 9.3.0: gcc-mingw-w64-x86-64 ;" > user-config.jam
+          ./bootstrap.sh
+          b2 toolset=gcc-mingw target-os=windows
+      - name: compile
+        working-directory: ardour/tools/x-win
+        run: XARCH=x86_64 ./compile.sh
