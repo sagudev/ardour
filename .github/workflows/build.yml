@@ -21,15 +21,15 @@ jobs:
       - name: clone
         run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: deps
-        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64 mingw-w64-tools
       - name: get boost
         run: |
           git clone --recursive https://github.com/boostorg/boost.git -b boost-1.76.0
           cd boost
           ./bootstrap.sh
-          echo "using gcc-mingw : ~: gcc-mingw-w64-x86-64 ;" > user-config.jam
+          echo "using gcc :  : x86_64-w64-mingw32-g++ ;" > user-config.jam
           ./bootstrap.sh
-          ./b2 toolset=gcc-mingw target-os=windows
+          ./b2 --user-config=./user-config.jam --prefix=./boost-x64 target-os=windows address-model=64 variant=release install
       - name: compile
         working-directory: ardour/tools/x-win
         run: XARCH=x86_64 ./compile.sh
