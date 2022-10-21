@@ -11,7 +11,7 @@ jobs:
       - name: clone
         run: git clone https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: deps
-        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev libvamp-sdk2v5 libvamp-hostsdk3v5 librubberband-dev
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev vamp-plugin-sdk librubberband-dev
       - name: configure
         working-directory: ardour
         run: ./waf configure
@@ -24,7 +24,7 @@ jobs:
         run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext mingw-w64 mingw-w64-tools
       - name: get boost
         run: |
-          git clone --recursive https://github.com/boostorg/boost.git -b boost-1.76.0
+          git clone --recursive https://github.com/boostorg/boost.git -b boost-1.80.0
           cd boost
           ./bootstrap.sh
           echo "using gcc :  : x86_64-w64-mingw32-g++ ;" > user-config.jam
