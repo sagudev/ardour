@@ -11,7 +11,7 @@ jobs:
       - name: clone
         run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: deps
-        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev vamp-plugin-sdk librubberband-dev
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev vamp-plugin-sdk librubberband-dev libudev-dev libfftw3f-dev libfftw3-3dev libfftw3-dev libjack-dev jack libjack-jackd2-dev
       - name: configure
         working-directory: ardour
         run: ./waf configure
@@ -33,8 +33,6 @@ jobs:
             python3-setuptools
             mingw-w64-x86_64-python3
             mingw-w64-x86_64-python3-setuptools
-            python2
-            python2-setuptools
             pkg-config
             mingw-w64-x86_64-pkg-config
             autoconf
