@@ -11,7 +11,7 @@ jobs:
       - name: clone
         run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: deps
-        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev vamp-plugin-sdk librubberband-dev libudev-dev libfftw3f-dev libfftw3-3dev libfftw3-dev libjack-dev jack libjack-jackd2-dev
+        run: sudo apt install -y git autoconf automake libtool pkg-config yasm python gettext libboost-all-dev alsa-base libasound2 libasound2-dev libpulse-dev libsndfile1-dev libglibmm-2.4-dev libcurl4-openssl-dev libarchive-dev liblo-dev libtag1-dev vamp-plugin-sdk librubberband-dev libudev-dev libfftw3-dev libjack-dev libjack-jackd2-dev
       - name: configure
         working-directory: ardour
         run: ./waf configure
@@ -125,5 +125,20 @@ jobs:
       - name: clone
         run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.0
       - name: compile
-        working-directory: ardour/tools/x-win
-        run: XARCH=x86_64 ./compile.sh
+        working-directory: ardour
+        env:
+          CC: mingw-w64-x86_64-gcc
+          CXX: mingw-w64-x86_64-g++
+          CPP: mingw-w64-x86_64-cpp
+          AR: mingw-w64-x86_64-ar
+          LD: mingw-w64-x86_64-ld
+          NM: mingw-w64-x86_64-nm
+          AS: mingw-w64-x86_64-as
+          STRIP: mingw-w64-x86_64-strip
+          WINRC: mingw-w64-x86_64-windres
+          RANLIB: mingw-w64-x86_64-ranlib
+          DLLTOOL: mingw-w64-x86_64-dlltool
+        run: |
+          ./waf configure --dist-target=mingw --ptformat --optimize --windows-vst --with-backends=jack,portaudio,dummy
+          ./waf -j 2
+          ./waf i18n
