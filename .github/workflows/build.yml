@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: clone
-        run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.0
+        run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.3
       - name: deps
         run: |
           sudo apt install -y \
@@ -154,7 +154,7 @@ jobs:
             mingw-w64-x86_64-libgdiplus
             mingw-w64-x86_64-libarchive
       - name: clone
-        run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.0
+        run: git clone --recurse-submodules https://git.ardour.org/ardour/ardour.git -b 7.3
       - name: compile
         working-directory: ardour
         env:
